@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://w5jmnuyn486e"]
+
+[ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="1_ebof2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7u53s"]
+radius = 27.0
+
+[node name="Game" type="Node2D"]
+
+[node name="level1" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="level1"]
+position = Vector2(637, 979)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/Floor"]
+polygon = PackedVector2Array(18, 3, -641, 8, -644, 100, 1278, 100, 1284, -332, 1250, -332, 1241, -141, 1160, -89, 243, -93, 244, 4, 127, 3, 127, -206, 22, -206)
+
+[node name="platform" type="StaticBody2D" parent="level1"]
+position = Vector2(1080, 695)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/platform"]
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 78, -219.089, 13, -112.798, 12, 78.0911, 12, 81.3449, -91, 88.9371, -90, 85.6833, 71)
+
+[node name="player" parent="." instance=ExtResource("1_ebof2")]
+position = Vector2(1556, 752)
+
+[node name="ball" type="RigidBody2D" parent="."]
+mass = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
+position = Vector2(1177, 569)
+shape = SubResource("CircleShape2D_7u53s")
