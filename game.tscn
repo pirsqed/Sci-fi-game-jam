@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://w5jmnuyn486e"]
+[gd_scene load_steps=4 format=3 uid="uid://w5jmnuyn486e"]
 
 [ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="1_ebof2"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7u53s"]
-radius = 27.0
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qhirp"]
+friction = 0.7
+bounce = 0.2
+absorbent = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfict"]
+size = Vector2(84, 84)
 
 [node name="Game" type="Node2D"]
 
@@ -20,14 +25,28 @@ position = Vector2(1080, 695)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/platform"]
 scale = Vector2(0.922, 1)
-polygon = PackedVector2Array(-216.92, 78, -219.089, 13, -112.798, 12, 78.0911, 12, 81.3449, -91, 88.9371, -90, 85.6833, 71)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, -11.9307, -13, 35.7917, -14, 81.3449, -91, 194.143, -91, 195.228, -59, 85.683, 75)
+
+[node name="ceiling1" type="StaticBody2D" parent="level1" groups=["grabbable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/ceiling1"]
+position = Vector2(1509, 34)
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
+
+[node name="ceiling2" type="StaticBody2D" parent="level1" groups=["grabbable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/ceiling2"]
+position = Vector2(733, 39)
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
+
+[node name="box" type="RigidBody2D" parent="."]
+position = Vector2(1278, 458)
+physics_material_override = SubResource("PhysicsMaterial_qhirp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="box"]
+shape = SubResource("RectangleShape2D_rfict")
 
 [node name="player" parent="." instance=ExtResource("1_ebof2")]
-position = Vector2(1556, 752)
-
-[node name="ball" type="RigidBody2D" parent="."]
-mass = 0.1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
-position = Vector2(1177, 569)
-shape = SubResource("CircleShape2D_7u53s")
+position = Vector2(1466, 812)
