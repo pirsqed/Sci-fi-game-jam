@@ -37,7 +37,8 @@ polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 
 [node name="ceiling2" type="StaticBody2D" parent="level1" groups=["grabbable"]]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/ceiling2"]
-position = Vector2(733, 39)
+position = Vector2(1658, 180)
+rotation = 3.13104
 scale = Vector2(0.922, 1)
 polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
 
