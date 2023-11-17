@@ -1,8 +1,9 @@
-[gd_scene load_steps=38 format=3 uid="uid://cavwwsnh7uyxv"]
+[gd_scene load_steps=49 format=3 uid="uid://cavwwsnh7uyxv"]
 
 [ext_resource type="Script" path="res://character_controller.gd" id="1_uu0v0"]
 [ext_resource type="Texture2D" uid="uid://cr8t72gva2bap" path="res://Sprites/CapyberaWalk.png" id="2_0iw5x"]
 [ext_resource type="Texture2D" uid="uid://ds2yos11uax8x" path="res://Sprites/CapyberaJump.png" id="3_xjibt"]
+[ext_resource type="Texture2D" uid="uid://b3vrnedaujdxw" path="res://Sprites/CapyberaIdleSprite.png" id="4_15o0d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cr6ko"]
 radius = 29.0
@@ -239,7 +240,6 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_smug4"]
 resource_name = "idle_left"
-length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -251,7 +251,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_0iw5x")]
+"values": [ExtResource("4_15o0d")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -284,10 +284,10 @@ tracks/3/path = NodePath("Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0]
+"values": [0, 1, 2, 3]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -316,7 +316,6 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_g6xtu"]
 resource_name = "idle_right"
-length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -328,7 +327,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_0iw5x")]
+"values": [ExtResource("4_15o0d")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -361,10 +360,10 @@ tracks/3/path = NodePath("Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0]
+"values": [0, 1, 2, 3]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -548,7 +547,6 @@ tracks/5/keys = {
 [sub_resource type="Animation" id="Animation_loqwj"]
 resource_name = "land_left"
 length = 0.1
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -625,7 +623,6 @@ tracks/5/keys = {
 [sub_resource type="Animation" id="Animation_bvr6e"]
 resource_name = "land_right"
 length = 0.1
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1024,6 +1021,19 @@ _data = {
 "walk_right": SubResource("Animation_7dax1")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e7stj"]
+animation = &"squat_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_quao5"]
+animation = &"squat_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_xab0n"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_e7stj")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_quao5")
+blend_point_1/pos = 1.0
+blend_mode = 1
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ok3vu"]
 animation = &"idle_left"
 
@@ -1060,6 +1070,18 @@ blend_point_3/node = SubResource("AnimationNodeAnimation_ljomv")
 blend_point_3/pos = Vector2(-1, -0.9)
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g2nca"]
+animation = &"land_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_utyuc"]
+animation = &"land_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_wgxj3"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_g2nca")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_utyuc")
+blend_point_1/pos = 1.0
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yyxp4"]
 animation = &"walk_left"
 
@@ -1078,7 +1100,7 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ad1dn"]
 advance_mode = 2
-advance_condition = &"walking"
+advance_condition = &"is_walking"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0kvns"]
 advance_mode = 2
@@ -1088,28 +1110,50 @@ advance_condition = &"idle"
 advance_mode = 2
 advance_condition = &"is_jumping_falling"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_n7l2j"]
-advance_mode = 2
-advance_condition = &"idle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i613o"]
-advance_mode = 2
-advance_condition = &"walking"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_enusv"]
 advance_mode = 2
 advance_condition = &"is_jumping_falling"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eq25e"]
+advance_mode = 2
+advance_condition = &"is_crouching"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_08i5w"]
+advance_mode = 2
+advance_condition = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vdslb"]
+advance_mode = 2
+advance_condition = &"is_jumping_falling"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ryopv"]
+advance_mode = 2
+advance_condition = &"is_landing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3lt5k"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pi846"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_walking"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_t4fvu"]
+states/Crouching/node = SubResource("AnimationNodeBlendSpace1D_xab0n")
+states/Crouching/position = Vector2(243.254, 23.6017)
 states/Idle/node = SubResource("AnimationNodeBlendSpace1D_pqh5j")
-states/Idle/position = Vector2(284.667, 123.382)
+states/Idle/position = Vector2(243.867, 164.182)
 states/JumpingFalling/node = SubResource("AnimationNodeBlendSpace2D_u5ey4")
-states/JumpingFalling/position = Vector2(367.333, 20.6667)
-states/Start/position = Vector2(146, 113.221)
+states/JumpingFalling/position = Vector2(405.887, 24.3382)
+states/Landing/node = SubResource("AnimationNodeBlendSpace1D_wgxj3")
+states/Landing/position = Vector2(406.619, 109.136)
+states/Start/position = Vector2(104.4, 165.03)
 states/Walking/node = SubResource("AnimationNodeBlendSpace1D_ox7hd")
-states/Walking/position = Vector2(458, 123.182)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_bfy4t"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ad1dn"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_0kvns"), "Idle", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_4r2s1"), "JumpingFalling", "Idle", SubResource("AnimationNodeStateMachineTransition_n7l2j"), "JumpingFalling", "Walking", SubResource("AnimationNodeStateMachineTransition_i613o"), "Walking", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_enusv")]
-graph_offset = Vector2(4, -48)
+states/Walking/position = Vector2(571.6, 163.342)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_bfy4t"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ad1dn"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_0kvns"), "Idle", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_4r2s1"), "Walking", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_enusv"), "Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_eq25e"), "Crouching", "Idle", SubResource("AnimationNodeStateMachineTransition_08i5w"), "Crouching", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_vdslb"), "JumpingFalling", "Landing", SubResource("AnimationNodeStateMachineTransition_ryopv"), "Landing", "Idle", SubResource("AnimationNodeStateMachineTransition_3lt5k"), "Landing", "Walking", SubResource("AnimationNodeStateMachineTransition_pi846")]
+graph_offset = Vector2(-301, -77)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_uu0v0")
@@ -1134,9 +1178,13 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_t4fvu")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/conditions/idle = false
-parameters/conditions/is_jumping_falling = true
-parameters/conditions/walking = false
+parameters/conditions/idle = true
+parameters/conditions/is_crouching = false
+parameters/conditions/is_jumping_falling = false
+parameters/conditions/is_landing = false
+parameters/conditions/is_walking = false
+parameters/Crouching/blend_position = -0.00313479
 parameters/Idle/blend_position = 0.00157726
 parameters/JumpingFalling/blend_position = Vector2(0.358392, 0.783626)
+parameters/Landing/blend_position = 0
 parameters/Walking/blend_position = 0.0

@@ -148,7 +148,7 @@ func _physics_process(delta):
 
 
 func is_above_grabbable(check_distance):
-	var grabbable
+	var grabbable = false
 	var ray = RayCast2D.new()
 	var vector_dir = Vector2(0, -1 * check_distance)
 	ray.target_position = vector_dir
@@ -168,39 +168,45 @@ func update_animation():
 	if input_vector.x:
 		facing_dir = input_vector.x
 		animation_tree["parameters/Idle/blend_position"] = input_vector.x
-#		animation_tree["parameters/Land/blend_position"] = input_vector.x
-#		animation_tree["parameters/Squat/blend_position"] = input_vector.x
+		animation_tree["parameters/Landing/blend_position"] = input_vector.x
 		animation_tree["parameters/Walking/blend_position"] = input_vector.x
+		animation_tree["parameters/Crouching/blend_position"] = input_vector.x
 
-	if not is_on_floor():
-		animation_tree["parameters/conditions/idle"] = false
-		animation_tree["parameters/conditions/walking"] = false
+	if not is_on_surface:
 		animation_tree["parameters/conditions/is_jumping_falling"] = true
 		animation_tree["parameters/JumpingFalling/blend_position"] = Vector2(facing_dir, velocity.normalized().y)
+		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/conditions/is_walking"] = false
+		animation_tree["parameters/conditions/is_crouching"] = false
+		return
+		
+	if jump_charge_timer > 0:
+		animation_tree["parameters/conditions/is_crouching"] = true
+		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/conditions/is_walking"] = false
+		animation_tree["parameters/conditions/is_jumping_falling"] = false
 		return
 		
 	
-#	if animation_tree["parameters/conditions/is_jumping_falling"] == true and is_on_surface:
-#		animation_tree["parameters/conditions/idle"] = false
-#		animation_tree["parameters/conditions/landed"] = true
-#		animation_tree["parameters/conditions/is_jumping_falling"] = false
-#		return
-		
-#	if not is_on_surface and velocity.y:
-#		animation_tree["parameters/conditions/idle"] = false
-#		animation_tree["parameters/conditions/is_jumping_falling"] = true
-##		animation_tree["parameters/JumpingFalling/blend_position"] = velocity.normalized()
-#		return
+	if animation_tree["parameters/conditions/is_jumping_falling"] == true and is_on_surface:
+		animation_tree["parameters/conditions/is_landing"] = true
+		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/conditions/is_walking"] = false
+		animation_tree["parameters/conditions/is_jumping_falling"] = false
+		return
 		
 	if not input_vector.x and is_on_surface:
 		animation_tree["parameters/conditions/idle"] = true
-		animation_tree["parameters/conditions/walking"] = false
+		animation_tree["parameters/conditions/is_landing"] = false
+		animation_tree["parameters/conditions/is_walking"] = false
+		animation_tree["parameters/conditions/is_crouching"] = false
 		animation_tree["parameters/conditions/is_jumping_falling"] = false
-#		animation_tree["parameters/conditions/landed"] = false
-#		animation_tree["parameters/conditions/is_charging_jump"] = false
 		return
 
 	if input_vector.x and is_on_surface:
+		animation_tree["parameters/conditions/is_walking"] = true
 		animation_tree["parameters/conditions/idle"] = false
-		animation_tree["parameters/conditions/walking"] = true
+		animation_tree["parameters/conditions/is_landing"] = false
+		animation_tree["parameters/conditions/is_crouching"] = false
 		animation_tree["parameters/conditions/is_jumping_falling"] = false
+		return
