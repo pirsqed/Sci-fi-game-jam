@@ -16,9 +16,20 @@ var double_tap_timer = 0
 var dashing = false
 var dash_timer = 0
 var dash_dir
+var facing_dir = 1
 
 var climbing = false
 var ceiling_walk = false
+
+@onready var animation_tree = $AnimationTree
+
+
+func _ready():
+	animation_tree.set_active(true)
+
+func _process(delta):
+	update_animation()
+
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -37,7 +48,7 @@ func _physics_process(delta):
 			$Sprite2D.modulate = Color('GREEN')
 		if Input.is_action_just_released("ui_accept"):
 			$Sprite2D.modulate = Color('WHITE')			
-			if jump_charge_timer > 2:
+			if jump_charge_timer > 1.5:
 				velocity.y = CHARGE_JUMP_VELOCITY
 			else:
 				velocity.y = JUMP_VELOCITY
@@ -101,14 +112,14 @@ func _physics_process(delta):
 		gravity = default_gravity
 		climbing = false
 
-	if horizontal_direction < 0 or (dashing and dash_dir < 0):
-		$Sprite2D.flip_h = true
-		if $Sprite2D.offset.x > 0:
-			$Sprite2D.offset = $Sprite2D.offset * -1
-	elif horizontal_direction > 0 or (dashing and dash_dir > 0):
-		$Sprite2D.flip_h = false
-		if $Sprite2D.offset.x < 0:
-			$Sprite2D.offset = $Sprite2D.offset * -1
+#	if horizontal_direction < 0 or (dashing and dash_dir < 0):
+#		$Sprite2D.flip_h = true
+#		if $Sprite2D.offset.x > 0:
+#			$Sprite2D.offset = $Sprite2D.offset * -1
+#	elif horizontal_direction > 0 or (dashing and dash_dir > 0):
+#		$Sprite2D.flip_h = false
+#		if $Sprite2D.offset.x < 0:
+#			$Sprite2D.offset = $Sprite2D.offset * -1
 
 	if (horizontal_direction or dashing) and not climbing:
 		
@@ -121,15 +132,12 @@ func _physics_process(delta):
 				dash_timer = 0
 				dashing = false
 				gravity = default_gravity
-		else:
-			$AnimationPlayer.play("walk")
+
 		if jump_charge_timer > 0:
 			horizontal_direction = horizontal_direction / 2.0
 		velocity.x = horizontal_direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-		$AnimationPlayer.play("idle")
-		
 
 	move_and_slide()
 
@@ -152,3 +160,47 @@ func is_above_grabbable(check_distance):
 			grabbable = true
 	ray.queue_free()
 	return grabbable
+
+func update_animation():
+	var is_on_surface = is_on_floor() or is_on_ceiling()
+	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
+
+	if input_vector.x:
+		facing_dir = input_vector.x
+		animation_tree["parameters/Idle/blend_position"] = input_vector.x
+#		animation_tree["parameters/Land/blend_position"] = input_vector.x
+#		animation_tree["parameters/Squat/blend_position"] = input_vector.x
+		animation_tree["parameters/Walking/blend_position"] = input_vector.x
+
+	if not is_on_floor():
+		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/conditions/walking"] = false
+		animation_tree["parameters/conditions/is_jumping_falling"] = true
+		animation_tree["parameters/JumpingFalling/blend_position"] = Vector2(facing_dir, velocity.normalized().y)
+		return
+		
+	
+#	if animation_tree["parameters/conditions/is_jumping_falling"] == true and is_on_surface:
+#		animation_tree["parameters/conditions/idle"] = false
+#		animation_tree["parameters/conditions/landed"] = true
+#		animation_tree["parameters/conditions/is_jumping_falling"] = false
+#		return
+		
+#	if not is_on_surface and velocity.y:
+#		animation_tree["parameters/conditions/idle"] = false
+#		animation_tree["parameters/conditions/is_jumping_falling"] = true
+##		animation_tree["parameters/JumpingFalling/blend_position"] = velocity.normalized()
+#		return
+		
+	if not input_vector.x and is_on_surface:
+		animation_tree["parameters/conditions/idle"] = true
+		animation_tree["parameters/conditions/walking"] = false
+		animation_tree["parameters/conditions/is_jumping_falling"] = false
+#		animation_tree["parameters/conditions/landed"] = false
+#		animation_tree["parameters/conditions/is_charging_jump"] = false
+		return
+
+	if input_vector.x and is_on_surface:
+		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/conditions/walking"] = true
+		animation_tree["parameters/conditions/is_jumping_falling"] = false
