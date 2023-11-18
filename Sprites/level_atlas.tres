@@ -1,7 +1,7 @@
 [gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cuhvn3707senf"]
 
-[ext_resource type="Texture2D" uid="uid://757jssc0com8" path="res://Tilesets/GameJamTileSet.png" id="1_sxcro"]
+[ext_resource type="Texture2D" uid="uid://lm2j0siuaunp" path="res://Sprites/GameJamTileAtlas.png" id="1_pl72g"]
 
 [resource]
-atlas = ExtResource("1_sxcro")
-region = Rect2(0, 0, 288, 192)
+atlas = ExtResource("1_pl72g")
+region = Rect2(256, 32, 32, 32)

@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3gaj2iiidhgp"]
+
+[ext_resource type="Script" path="res://PhysicsButton.gd" id="1_8jb4o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hekfs"]
+size = Vector2(38, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6teil"]
+size = Vector2(20, 2)
+
+[node name="Button" type="Node2D"]
+position = Vector2(220, 171)
+
+[node name="ButtonPlatform" type="RigidBody2D" parent="."]
+position = Vector2(0, 5)
+mass = 0.5
+gravity_scale = 0.0
+max_contacts_reported = 2
+contact_monitor = true
+can_sleep = false
+lock_rotation = true
+constant_force = Vector2(0, -500)
+script = ExtResource("1_8jb4o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ButtonPlatform"]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_hekfs")
+
+[node name="Joint" type="GrooveJoint2D" parent="ButtonPlatform"]
+position = Vector2(0, -13)
+node_a = NodePath("..")
+node_b = NodePath("../../ButtonBase")
+bias = 0.7
+disable_collision = false
+length = 10.0
+initial_offset = 10.0
+
+[node name="ButtonBase" type="StaticBody2D" parent="." groups=["Button"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ButtonBase"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_6teil")

@@ -149,8 +149,11 @@ func _physics_process(delta):
 
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
-		if c.get_collider() is RigidBody2D:
-			c.get_collider().apply_central_impulse(-c.get_normal() * PUSH_FORCE)
+		var collider = c.get_collider()
+		if collider is RigidBody2D:
+			collider.apply_central_impulse(-c.get_normal() * PUSH_FORCE)
+		elif collider is CharacterBody2D:
+			collider.velocity += -c.get_normal() * PUSH_FORCE*100
 
 
 func is_above_grabbable(check_distance):
