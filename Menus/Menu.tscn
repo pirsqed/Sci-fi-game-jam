@@ -12,10 +12,10 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 929.0
-offset_top = 358.0
-offset_right = 1008.0
-offset_bottom = 459.0
+offset_left = 220.0
+offset_top = 52.0
+offset_right = 299.0
+offset_bottom = 153.0
 
 [node name="Start" type="Button" parent="VBoxContainer"]
 layout_mode = 2

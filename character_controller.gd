@@ -5,7 +5,7 @@ const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 const CHARGE_JUMP_VELOCITY = -800.0
 const MAX_JUMPS = 1
-const PUSH_FORCE = 50.0
+const PUSH_FORCE = 15.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -33,39 +33,41 @@ func _process(delta):
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta * 1.5
-	else:
+#	if not is_on_floor():
+	velocity.y += gravity * delta * 1.5
+	
+	if is_on_floor():
 		jumps = MAX_JUMPS
-#		if Input.is_action_pressed("ui_accept"):
+#		if Input.is_action_pressed("jump"):
 #			jump_charge_timer = delta
 
-	# Handle Jump.
 	# Charge jump 
-	if jump_charge_timer > 0:
+	if Input.is_action_pressed("down") and is_on_floor():
 		jump_charge_timer += delta;
-		if jump_charge_timer > 2:
+		if jump_charge_timer > 1.5:
 			$Sprite2D.modulate = Color('GREEN')
-		if Input.is_action_just_released("ui_accept"):
-			$Sprite2D.modulate = Color('WHITE')			
-			if jump_charge_timer > 1.5:
+			if Input.is_action_just_pressed("jump"):
 				velocity.y = CHARGE_JUMP_VELOCITY
-			else:
-				velocity.y = JUMP_VELOCITY
-			jump_charge_timer = 0
+				$Sprite2D.modulate = Color('WHITE')
+				jump_charge_timer = 0
+				jumps -=1
+	else:
+		$Sprite2D.modulate = Color('WHITE')
+		jump_charge_timer = 0
 	
-	if Input.is_action_just_pressed("ui_accept") and jumps:
-		if is_on_ceiling():
+	if Input.is_action_just_pressed("jump") and jumps:
+		if ceiling_walk:
 			ceiling_walk = false
 			$Sprite2D.flip_v = false
-			velocity.y = -1 * JUMP_VELOCITY
+			$Sprite2D.offset.y = 0
+			up_direction = Vector2(0, -1)
 			gravity = default_gravity
-		if is_on_floor() and abs(velocity.x) <= 20:
-			jump_charge_timer = delta
+			velocity.y = -1 * JUMP_VELOCITY
 		else:
 			jumps -= 1
 			velocity.y = JUMP_VELOCITY
 			
+		
 	if double_tap_timer > 0:
 		double_tap_timer += delta
 	
@@ -73,35 +75,38 @@ func _physics_process(delta):
 	if dash_timer > 0:
 		dash_timer += delta
 		
-	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
-		if is_on_floor():
+	if Input.is_action_just_pressed("left") or Input.is_action_just_pressed("right"):
+		if is_on_floor() and not jump_charge_timer:
 			if double_tap_timer == 0:
-				dash_dir = Input.get_axis("ui_left", "ui_right")
+				dash_dir = Input.get_axis("left", "right")
 				double_tap_timer += delta
-			elif double_tap_timer < 0.4 and dash_dir == Input.get_axis("ui_left", "ui_right"):
-				dashing = true
+			elif double_tap_timer < 0.5 and dash_dir == Input.get_axis("left", "right"):
+				dashing = false
 				dash_timer += delta
 			else:
 				double_tap_timer = 0
 			
 	if is_on_ceiling():
-		if Input.get_axis("ui_up", "ui_down") < 0 and not ceiling_walk:
+		if climbing and not ceiling_walk:
 			$Sprite2D.flip_v = true
+			$Sprite2D.offset.y = 10
 			climbing = false
 			ceiling_walk = true
+			up_direction = Vector2(0, 1)
 			gravity = -1 * default_gravity
-	elif not is_on_ceiling() and ceiling_walk and not is_above_grabbable(50.0):
+	elif ceiling_walk and not is_above_grabbable(50.0):
+		up_direction = Vector2(0, -1)
 		$Sprite2D.flip_v = false
+		$Sprite2D.offset.y = 0
 		ceiling_walk = false
 		gravity = default_gravity
 		
 	
 
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var horizontal_direction = Input.get_axis("ui_left", "ui_right")
-	var vertical_direction = Input.get_axis("ui_up", "ui_down")
-	if Input.is_action_just_pressed("ui_up") and is_on_floor():
+	var horizontal_direction = Input.get_axis("left", "right")
+	var vertical_direction = Input.get_axis("up", "down")
+	if Input.is_action_just_pressed("up") and is_on_floor():
 		if is_above_grabbable(1500):
 			climbing = true
 		
@@ -134,7 +139,8 @@ func _physics_process(delta):
 				gravity = default_gravity
 
 		if jump_charge_timer > 0:
-			horizontal_direction = horizontal_direction / 2.0
+			#if you're charging a jump, don't walk
+			horizontal_direction = 0
 		velocity.x = horizontal_direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -156,6 +162,10 @@ func is_above_grabbable(check_distance):
 	ray.force_raycast_update()
 	if ray.is_colliding():
 		var collider = ray.get_collider()
+		# collision layer 2 is 'Grabbable'
+		if collider is TileMap:
+			if collider.tile_set.get_physics_layer_collision_layer(1) == 2:
+				grabbable = true
 		if collider.is_in_group("grabbable"):
 			grabbable = true
 	ray.queue_free()
@@ -163,7 +173,7 @@ func is_above_grabbable(check_distance):
 
 func update_animation():
 	var is_on_surface = is_on_floor() or is_on_ceiling()
-	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
+	var input_vector = Input.get_vector("left", "right", "up", "down").normalized()
 
 	if input_vector.x:
 		facing_dir = input_vector.x

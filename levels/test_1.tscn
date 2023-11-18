@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfcfplwf6line"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qhirp"]
+friction = 0.7
+bounce = 0.2
+absorbent = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfict"]
+size = Vector2(84, 84)
+
+[node name="test1" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(637, 979)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Floor"]
+polygon = PackedVector2Array(18, 3, -641, 8, -644, 100, 1278, 100, 1284, -332, 1250, -332, 1241, -141, 1160, -89, 243, -93, 244, 4, 127, 3, 127, -206, 22, -206)
+
+[node name="platform" type="StaticBody2D" parent="."]
+position = Vector2(1080, 695)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platform"]
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, -11.9307, -13, 35.7917, -14, 81.3449, -91, 194.143, -91, 195.228, -59, 85.683, 75)
+
+[node name="ceiling1" type="StaticBody2D" parent="." groups=["grabbable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ceiling1"]
+position = Vector2(1509, 34)
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
+
+[node name="ceiling2" type="StaticBody2D" parent="." groups=["grabbable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ceiling2"]
+position = Vector2(1658, 180)
+rotation = 3.13104
+scale = Vector2(0.922, 1)
+polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
+
+[node name="box" type="RigidBody2D" parent="."]
+position = Vector2(1278, 458)
+physics_material_override = SubResource("PhysicsMaterial_qhirp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="box"]
+shape = SubResource("RectangleShape2D_rfict")

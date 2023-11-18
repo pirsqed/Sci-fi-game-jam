@@ -1,53 +1,75 @@
-[gd_scene load_steps=4 format=3 uid="uid://w5jmnuyn486e"]
+[gd_scene load_steps=8 format=3 uid="uid://w5jmnuyn486e"]
 
 [ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="1_ebof2"]
+[ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="2_umihy"]
+[ext_resource type="Script" path="res://PhysicsButton.gd" id="3_2xkds"]
+[ext_resource type="Texture2D" uid="uid://757jssc0com8" path="res://Tilesets/GameJamTileSet.png" id="4_7c1r1"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qhirp"]
-friction = 0.7
-bounce = 0.2
-absorbent = true
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hekfs"]
+size = Vector2(38, 7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfict"]
-size = Vector2(84, 84)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6teil"]
+size = Vector2(20, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6sae"]
+size = Vector2(32, 32)
 
 [node name="Game" type="Node2D"]
 
-[node name="level1" type="Node2D" parent="."]
-
-[node name="Floor" type="StaticBody2D" parent="level1"]
-position = Vector2(637, 979)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/Floor"]
-polygon = PackedVector2Array(18, 3, -641, 8, -644, 100, 1278, 100, 1284, -332, 1250, -332, 1241, -141, 1160, -89, 243, -93, 244, 4, 127, 3, 127, -206, 22, -206)
-
-[node name="platform" type="StaticBody2D" parent="level1"]
-position = Vector2(1080, 695)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/platform"]
-scale = Vector2(0.922, 1)
-polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, -11.9307, -13, 35.7917, -14, 81.3449, -91, 194.143, -91, 195.228, -59, 85.683, 75)
-
-[node name="ceiling1" type="StaticBody2D" parent="level1" groups=["grabbable"]]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/ceiling1"]
-position = Vector2(1509, 34)
-scale = Vector2(0.922, 1)
-polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
-
-[node name="ceiling2" type="StaticBody2D" parent="level1" groups=["grabbable"]]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="level1/ceiling2"]
-position = Vector2(1658, 180)
-rotation = 3.13104
-scale = Vector2(0.922, 1)
-polygon = PackedVector2Array(-216.92, 75, -219.089, 13, -112.798, 12, -9.76135, 13, 85.683, 75)
-
-[node name="box" type="RigidBody2D" parent="."]
-position = Vector2(1278, 458)
-physics_material_override = SubResource("PhysicsMaterial_qhirp")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="box"]
-shape = SubResource("RectangleShape2D_rfict")
-
 [node name="player" parent="." instance=ExtResource("1_ebof2")]
-position = Vector2(1466, 812)
+position = Vector2(230, 94)
+
+[node name="level 1" type="Node" parent="."]
+
+[node name="TileMap" type="TileMap" parent="level 1"]
+tile_set = ExtResource("2_umihy")
+collision_animatable = true
+collision_visibility_mode = 1
+navigation_visibility_mode = 1
+format = 2
+layer_0/tile_data = PackedInt32Array(1048576, 2, 0, 1114112, 2, 1, 1048577, 65538, 0, 1114113, 65538, 1, 1048578, 131074, 0, 1114114, 131074, 1, 1048579, 196610, 0, 1114115, 196610, 1, 1048580, 262146, 0, 1114116, 262146, 1, 1048581, 65538, 0, 1114117, 65538, 1, 1048582, 131074, 0, 1114118, 131074, 1, 1048583, 196610, 0, 1114119, 196610, 1, 1048584, 262146, 0, 1114120, 262146, 1, 1048585, 65538, 0, 1114121, 65538, 1, 1048586, 131074, 0, 1114122, 131074, 1, 1048587, 196610, 0, 1114123, 196610, 1, 1048588, 262146, 0, 1114124, 262146, 1, 1048589, 65538, 0, 1114125, 65538, 1, 1048590, 131074, 0, 1114126, 131074, 1, 1048591, 196610, 0, 1114127, 196610, 1, 1048592, 262146, 0, 1114128, 262146, 1, 1048593, 65538, 0, 1114129, 65538, 1, 1048594, 131074, 0, 1114130, 131074, 1, 1048595, 196610, 0, 1114131, 196610, 1, 1048596, 262146, 0, 1114132, 262146, 1, 1048597, 65538, 0, 1114133, 65538, 1, 1048598, 131074, 0, 1114134, 131074, 1, 1048599, 196610, 0, 1114135, 196610, 1, 1048600, 262146, 0, 1114136, 262146, 1, 1048601, 65538, 0, 1114137, 65538, 1, 1048602, 131074, 0, 1114138, 131074, 1, 1048603, 196610, 0, 1114139, 196610, 1, 1048604, 262146, 0, 1114140, 262146, 1, 1048605, 65538, 0, 1114141, 65538, 1, 1048606, 131074, 0, 1114142, 131074, 1, 1048607, 327682, 0, 1114143, 327682, 1, 327696, 917506, 4, 917520, 1048578, 2, 983056, 1048578, 3, 917521, 1114114, 2, 983057, 1114114, 3, 196619, 917506, 5, 196620, 983042, 5, 196621, 917506, 5, 196622, 983042, 5, 524295, 917506, 5, 524296, 983042, 5, 524297, 917506, 5, 524298, 983042, 5, 983060, 524290, 6, 851987, 1048578, 0, 851988, 1114114, 0, 851984, 1048578, 1, 851985, 1114114, 1)
+
+[node name="ButtonHolder" type="Node2D" parent="level 1"]
+position = Vector2(220, 171)
+
+[node name="Button" type="RigidBody2D" parent="level 1/ButtonHolder"]
+position = Vector2(0, 5)
+mass = 0.5
+gravity_scale = 0.0
+max_contacts_reported = 2
+contact_monitor = true
+can_sleep = false
+lock_rotation = true
+constant_force = Vector2(0, -500)
+script = ExtResource("3_2xkds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level 1/ButtonHolder/Button"]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_hekfs")
+
+[node name="Joint" type="GrooveJoint2D" parent="level 1/ButtonHolder/Button"]
+position = Vector2(0, -13)
+node_a = NodePath("..")
+node_b = NodePath("../../ButtonBase")
+bias = 0.7
+disable_collision = false
+length = 10.0
+initial_offset = 10.0
+
+[node name="ButtonBase" type="StaticBody2D" parent="level 1/ButtonHolder" groups=["Button"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level 1/ButtonHolder/ButtonBase"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_6teil")
+
+[node name="Box" type="RigidBody2D" parent="level 1"]
+position = Vector2(146, 119)
+
+[node name="Sprite2D" type="Sprite2D" parent="level 1/Box"]
+texture = ExtResource("4_7c1r1")
+region_enabled = true
+region_rect = Rect2(256, 32, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level 1/Box"]
+shape = SubResource("RectangleShape2D_y6sae")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
