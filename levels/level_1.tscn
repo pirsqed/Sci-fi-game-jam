@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="1_ak4ph"]
 [ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="1_glrmn"]
 [ext_resource type="Texture2D" uid="uid://cuhvn3707senf" path="res://Sprites/level_atlas.tres" id="2_hvcps"]
-[ext_resource type="Script" path="res://book.gd" id="3_4fuav"]
+[ext_resource type="Script" path="res://Scripts/book.gd" id="3_4fuav"]
 [ext_resource type="Texture2D" uid="uid://lm2j0siuaunp" path="res://Sprites/GameJamTileAtlas.png" id="4_su4qc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yg6lo"]
