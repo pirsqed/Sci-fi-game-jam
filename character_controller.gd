@@ -5,7 +5,7 @@ const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 const CHARGE_JUMP_VELOCITY = -800.0
 const MAX_JUMPS = 1
-const PUSH_FORCE = 15.0
+const PUSH_FORCE = 10.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -60,6 +60,7 @@ func _physics_process(delta):
 			ceiling_walk = false
 			$Sprite2D.flip_v = false
 			$Sprite2D.offset.y = 0
+			$CollisionShape2D.position += Vector2(0,5)
 			up_direction = Vector2(0, -1)
 			gravity = default_gravity
 			velocity.y = -1 * JUMP_VELOCITY
@@ -90,6 +91,7 @@ func _physics_process(delta):
 		if climbing and not ceiling_walk:
 			$Sprite2D.flip_v = true
 			$Sprite2D.offset.y = 10
+			$CollisionShape2D.position -= Vector2(0,5)
 			climbing = false
 			ceiling_walk = true
 			up_direction = Vector2(0, 1)
@@ -98,6 +100,8 @@ func _physics_process(delta):
 		up_direction = Vector2(0, -1)
 		$Sprite2D.flip_v = false
 		$Sprite2D.offset.y = 0
+		$CollisionShape2D.position += Vector2(0,5)
+		
 		ceiling_walk = false
 		gravity = default_gravity
 		
@@ -161,16 +165,11 @@ func is_above_grabbable(check_distance):
 	var ray = RayCast2D.new()
 	var vector_dir = Vector2(0, -1 * check_distance)
 	ray.target_position = vector_dir
+	ray.collision_mask = 2
 	add_child(ray)
 	ray.force_raycast_update()
 	if ray.is_colliding():
-		var collider = ray.get_collider()
-		# collision layer 2 is 'Grabbable'
-		if collider is TileMap:
-			if collider.tile_set.get_physics_layer_collision_layer(1) == 2:
-				grabbable = true
-		if collider.is_in_group("grabbable"):
-			grabbable = true
+		grabbable = true
 	ray.queue_free()
 	return grabbable
 
