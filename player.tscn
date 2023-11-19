@@ -1180,7 +1180,7 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_cr6ko")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_15o0d")
+texture = ExtResource("2_0iw5x")
 offset = Vector2(4, 0)
 hframes = 4
 
