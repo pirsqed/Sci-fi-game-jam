@@ -11,7 +11,7 @@ func _process(delta):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _on_startbutton_pressed():
-	get_tree().change_scene_to_file("res://game.tscn");
+	get_tree().change_scene_to_file("res://Opening/opening.tscn");
 
 func _on_quit_pressed():
 	get_tree().quit()
