@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://55fw362lj8ch"]
+[gd_scene load_steps=11 format=3 uid="uid://depir2nnfteni"]
 
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="1_ak4ph"]
+[ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="1_glrmn"]
 [ext_resource type="Texture2D" uid="uid://cuhvn3707senf" path="res://Sprites/level_atlas.tres" id="2_hvcps"]
 [ext_resource type="Script" path="res://book.gd" id="3_4fuav"]
 [ext_resource type="Texture2D" uid="uid://lm2j0siuaunp" path="res://Sprites/GameJamTileAtlas.png" id="4_su4qc"]
@@ -23,6 +24,11 @@ region = Rect2(256, 64, 32, 16)
 size = Vector2(20, 62)
 
 [node name="level 1" type="Node"]
+
+[node name="Background01" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(393, 219)
+texture = ExtResource("1_glrmn")
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(10, -13)
