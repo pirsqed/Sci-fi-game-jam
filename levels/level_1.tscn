@@ -1,9 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://bf3ywp3cpnc8o"]
+[gd_scene load_steps=11 format=3 uid="uid://depir2nnfteni"]
 
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="1_ak4ph"]
-[ext_resource type="PackedScene" uid="uid://cgk4seqmxeinl" path="res://Objects/box.tscn" id="2_gjmki"]
-[ext_resource type="Script" path="res://Scripts/book.gd" id="3_4fuav"]
+[ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="1_glrmn"]
+[ext_resource type="Texture2D" uid="uid://cuhvn3707senf" path="res://Sprites/level_atlas.tres" id="2_hvcps"]
+[ext_resource type="Script" path="res://book.gd" id="3_4fuav"]
 [ext_resource type="Texture2D" uid="uid://lm2j0siuaunp" path="res://Sprites/GameJamTileAtlas.png" id="4_su4qc"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yg6lo"]
+bounce = 0.34
+absorbent = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5oji1"]
+radius = 16.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6g8f1"]
 size = Vector2(24, 13)
@@ -17,7 +25,13 @@ size = Vector2(20, 62)
 
 [node name="level 1" type="Node"]
 
+[node name="Background01" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(393, 219)
+texture = ExtResource("1_glrmn")
+
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2(10, -13)
 tile_set = ExtResource("1_ak4ph")
 cell_quadrant_size = 8
 collision_animatable = true
@@ -33,7 +47,28 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array(786432, 1310722, 6, 851968, 1310722, 7, 917504, 1310722, 8, 983040, 1310722, 9, 786433, 1376258, 6, 851969, 1376258, 7, 917505, 1376258, 8, 983041, 1376258, 9, 655398, 1245186, 6, 720934, 1245186, 7, 786470, 1245186, 8, 852006, 1245186, 9, 655397, 1179650, 6, 720933, 1179650, 7, 786469, 1179650, 8, 852005, 1179650, 9)
 
-[node name="box" parent="." instance=ExtResource("2_gjmki")]
+[node name="WorldBoundry" type="StaticBody2D" parent="."]
+process_mode = 4
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldBoundry"]
+visible = false
+build_mode = 1
+polygon = PackedVector2Array(0, 0, 0, 432, 768, 432, 768, 0)
+
+[node name="box" type="RigidBody2D" parent="."]
+position = Vector2(228, 226)
+collision_layer = 4
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_yg6lo")
+lock_rotation = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="box"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("CircleShape2D_5oji1")
+
+[node name="Sprite2D" type="Sprite2D" parent="box"]
+texture = ExtResource("2_hvcps")
 
 [node name="book" type="RigidBody2D" parent="."]
 position = Vector2(412, 188)
