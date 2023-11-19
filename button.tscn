@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d3gaj2iiidhgp"]
 
-[ext_resource type="Script" path="res://PhysicsButton.gd" id="1_8jb4o"]
+[ext_resource type="Script" path="res://Scripts/PhysicsButton.gd" id="1_8jb4o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hekfs"]
 size = Vector2(38, 7)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cnrytt0qgui3r"]
 
-[ext_resource type="Script" path="res://rabbit_controller.gd" id="1_8jxmf"]
+[ext_resource type="Script" path="res://Scripts/rabbit_controller.gd" id="1_b7lqw"]
 [ext_resource type="Texture2D" uid="uid://bppyijus52xaa" path="res://Sprites/RabbitIdle.png" id="2_e1uie"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6nlml"]
@@ -119,7 +119,7 @@ _data = {
 [node name="rabbit" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 3
-script = ExtResource("1_8jxmf")
+script = ExtResource("1_b7lqw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
