@@ -1,6 +1,6 @@
 [gd_scene load_steps=52 format=3 uid="uid://cavwwsnh7uyxv"]
 
-[ext_resource type="Script" path="res://character_controller.gd" id="1_uu0v0"]
+[ext_resource type="Script" path="res://Scripts/character_controller.gd" id="1_kvgaw"]
 [ext_resource type="Texture2D" uid="uid://cr8t72gva2bap" path="res://Sprites/CapyberaWalk.png" id="2_0iw5x"]
 [ext_resource type="Texture2D" uid="uid://ds2yos11uax8x" path="res://Sprites/CapyberaJump.png" id="3_xjibt"]
 [ext_resource type="Texture2D" uid="uid://b3vrnedaujdxw" path="res://Sprites/CapyberaIdleSprite.png" id="4_15o0d"]
@@ -1158,21 +1158,21 @@ states/Crouching/node = SubResource("AnimationNodeBlendSpace1D_xab0n")
 states/Crouching/position = Vector2(243.874, 258.802)
 states/End/position = Vector2(732.8, 163.979)
 states/Idle/node = SubResource("AnimationNodeBlendSpace1D_pqh5j")
-states/Idle/position = Vector2(243.867, 164.182)
+states/Idle/position = Vector2(124.667, 118.865)
 states/JumpingFalling/node = SubResource("AnimationNodeBlendSpace2D_u5ey4")
-states/JumpingFalling/position = Vector2(405.887, 24.3382)
+states/JumpingFalling/position = Vector2(356.287, -56.4618)
 states/Landing/node = SubResource("AnimationNodeBlendSpace1D_wgxj3")
-states/Landing/position = Vector2(405.553, 119.536)
-states/Start/position = Vector2(100.4, 164.992)
+states/Landing/position = Vector2(369.553, 104.336)
+states/Start/position = Vector2(-51.6, 139.392)
 states/Walking/node = SubResource("AnimationNodeBlendSpace1D_ox7hd")
-states/Walking/position = Vector2(571.6, 163.342)
+states/Walking/position = Vector2(618.8, 200.942)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_bfy4t"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ad1dn"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_0kvns"), "Idle", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_4r2s1"), "Walking", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_enusv"), "Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_eq25e"), "Crouching", "Idle", SubResource("AnimationNodeStateMachineTransition_08i5w"), "Crouching", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_vdslb"), "JumpingFalling", "Landing", SubResource("AnimationNodeStateMachineTransition_ryopv"), "Landing", "Idle", SubResource("AnimationNodeStateMachineTransition_3lt5k"), "Landing", "Walking", SubResource("AnimationNodeStateMachineTransition_pi846"), "Walking", "Crouching", SubResource("AnimationNodeStateMachineTransition_tk7w1"), "Crouching", "Walking", SubResource("AnimationNodeStateMachineTransition_ihf86"), "Landing", "Crouching", SubResource("AnimationNodeStateMachineTransition_2wfd4")]
-graph_offset = Vector2(-186, 27)
+graph_offset = Vector2(-169, -108)
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 7
-script = ExtResource("1_uu0v0")
+script = ExtResource("1_kvgaw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -1180,7 +1180,7 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_cr6ko")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_0iw5x")
+texture = ExtResource("4_15o0d")
 offset = Vector2(4, 0)
 hframes = 4
 
