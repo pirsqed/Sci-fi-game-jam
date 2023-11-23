@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://k8xk4fkn4qae"]
+
+[ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="1_6ugkx"]
+[ext_resource type="Script" path="res://levels/Ending.gd" id="1_sku7d"]
+
+[sub_resource type="Theme" id="Theme_3i7qh"]
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/shadow_outline_size = 5
+
+[node name="Ending" type="Node2D"]
+script = ExtResource("1_sku7d")
+
+[node name="Background01" type="Sprite2D" parent="."]
+position = Vector2(387, 216)
+texture = ExtResource("1_6ugkx")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 86.0
+offset_top = 64.0
+offset_right = 323.0
+offset_bottom = 331.0
+theme = SubResource("Theme_3i7qh")
+bbcode_enabled = true
+text = "			Of Celery And Sadness
+Credits:
+Rafi James
+Jess Phommachanh 
+Lucky Souvannarath
+Elaine Alasagas
+John Laceda
+Jeff Corder
+
+
+esc to quit"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 383.0
+offset_top = 20.0
+offset_right = 735.0
+offset_bottom = 355.0
+theme = SubResource("Theme_3i7qh")
+bbcode_enabled = true
+text = "Fredrico, an adventurous and curious capybara, embarks on his own little journey outside of his cloning facility to search for a life outside of what he knows. Celery. His party experiences the facility as he never has before as platforms move and rooms expand. As he comes to learn about his own abilities, he grows into the leader that he's meant to be with Dirk, the Sloth and Helen, the Walrus at his side. Room after room, he unites his new friends in search of freedom, independence, and vegetable platters!"

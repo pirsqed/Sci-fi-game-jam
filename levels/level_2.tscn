@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqhlqtirmpqkv"]
+[gd_scene load_steps=7 format=3 uid="uid://cqhlqtirmpqkv"]
 
 [ext_resource type="Texture2D" uid="uid://dv37es6wn4faa" path="res://Background/Background02.png" id="1_80w7s"]
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="2_icyy0"]
 [ext_resource type="Texture2D" uid="uid://djmmiikk3qm0r" path="res://Sprites/PandaNPC.png" id="3_rpy8f"]
 [ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="4_dsxvo"]
+[ext_resource type="PackedScene" uid="uid://dqjl6n8b1wvud" path="res://Objects/level_exit.tscn" id="5_wow6v"]
+[ext_resource type="PackedScene" uid="uid://30hayg4ml80d" path="res://levels/level_3.tscn" id="6_mjm7u"]
 
-[node name="level 1" type="Node"]
+[node name="level 2" type="Node"]
 
 [node name="Background01" type="Sprite2D" parent="."]
 z_index = -2
@@ -34,3 +36,7 @@ texture = ExtResource("3_rpy8f")
 
 [node name="player" parent="." instance=ExtResource("4_dsxvo")]
 position = Vector2(81, 239)
+
+[node name="LevelExit" parent="." instance=ExtResource("5_wow6v")]
+position = Vector2(606, 178)
+next_level = ExtResource("6_mjm7u")

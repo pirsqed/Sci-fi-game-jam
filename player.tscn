@@ -1169,7 +1169,7 @@ states/Walking/position = Vector2(618.8, 200.942)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_bfy4t"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ad1dn"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_0kvns"), "Idle", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_4r2s1"), "Walking", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_enusv"), "Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_eq25e"), "Crouching", "Idle", SubResource("AnimationNodeStateMachineTransition_08i5w"), "Crouching", "JumpingFalling", SubResource("AnimationNodeStateMachineTransition_vdslb"), "JumpingFalling", "Landing", SubResource("AnimationNodeStateMachineTransition_ryopv"), "Landing", "Idle", SubResource("AnimationNodeStateMachineTransition_3lt5k"), "Landing", "Walking", SubResource("AnimationNodeStateMachineTransition_pi846"), "Walking", "Crouching", SubResource("AnimationNodeStateMachineTransition_tk7w1"), "Crouching", "Walking", SubResource("AnimationNodeStateMachineTransition_ihf86"), "Landing", "Crouching", SubResource("AnimationNodeStateMachineTransition_2wfd4")]
 graph_offset = Vector2(-169, -108)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_kvgaw")

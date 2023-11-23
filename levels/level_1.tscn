@@ -1,10 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://depir2nnfteni"]
+[gd_scene load_steps=14 format=3 uid="uid://depir2nnfteni"]
 
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="1_ak4ph"]
 [ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="1_glrmn"]
 [ext_resource type="Texture2D" uid="uid://cuhvn3707senf" path="res://Sprites/level_atlas.tres" id="2_hvcps"]
 [ext_resource type="Script" path="res://Scripts/book.gd" id="3_4fuav"]
 [ext_resource type="Texture2D" uid="uid://lm2j0siuaunp" path="res://Sprites/GameJamTileAtlas.png" id="4_su4qc"]
+[ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="6_et5j4"]
+[ext_resource type="PackedScene" uid="uid://dqjl6n8b1wvud" path="res://Objects/level_exit.tscn" id="7_p2voa"]
+[ext_resource type="PackedScene" uid="uid://cqhlqtirmpqkv" path="res://levels/level_2.tscn" id="8_kgdju"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yg6lo"]
 bounce = 0.34
@@ -31,7 +34,6 @@ position = Vector2(393, 219)
 texture = ExtResource("1_glrmn")
 
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2(10, -13)
 tile_set = ExtResource("1_ak4ph")
 cell_quadrant_size = 8
 collision_animatable = true
@@ -57,7 +59,7 @@ build_mode = 1
 polygon = PackedVector2Array(0, 0, 0, 432, 768, 432, 768, 0)
 
 [node name="box" type="RigidBody2D" parent="."]
-position = Vector2(228, 226)
+position = Vector2(226, 238)
 collision_layer = 4
 collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_yg6lo")
@@ -90,5 +92,12 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_odyj6")
+
+[node name="player" parent="." instance=ExtResource("6_et5j4")]
+position = Vector2(59, 237)
+
+[node name="LevelExit" parent="." instance=ExtResource("7_p2voa")]
+position = Vector2(607, 177)
+next_level = ExtResource("8_kgdju")
 
 [connection signal="body_entered" from="Area2D" to="book" method="_on_area_2d_body_entered"]

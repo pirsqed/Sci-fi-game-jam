@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://30hayg4ml80d"]
+[gd_scene load_steps=7 format=3 uid="uid://30hayg4ml80d"]
 
 [ext_resource type="TileSet" uid="uid://b0y6slrdog43b" path="res://Tilesets/level_tileset.tres" id="1_twugl"]
 [ext_resource type="PackedScene" uid="uid://cgk4seqmxeinl" path="res://Objects/box.tscn" id="2_fskha"]
 [ext_resource type="Texture2D" uid="uid://c8t138m2hl783" path="res://Background/Background01.png" id="4_ldr1q"]
-[ext_resource type="PackedScene" uid="uid://bt24g1l2yckc0" path="res://Objects/player_spawn.tscn" id="5_8ie15"]
+[ext_resource type="PackedScene" uid="uid://cavwwsnh7uyxv" path="res://player.tscn" id="4_ob6p5"]
+[ext_resource type="PackedScene" uid="uid://dqjl6n8b1wvud" path="res://Objects/level_exit.tscn" id="5_fck3h"]
+[ext_resource type="PackedScene" uid="uid://k8xk4fkn4qae" path="res://levels/Ending.tscn" id="6_fpio8"]
 
 [node name="level 3" type="Node"]
 
@@ -29,10 +31,14 @@ position = Vector2(187, 177)
 [node name="box2" parent="." instance=ExtResource("2_fskha")]
 position = Vector2(575, 47)
 
-[node name="PlayerSpawn" parent="." instance=ExtResource("5_8ie15")]
-position = Vector2(63, 374)
-
 [node name="Background01" type="Sprite2D" parent="."]
 z_index = -3
 position = Vector2(384, 216)
 texture = ExtResource("4_ldr1q")
+
+[node name="player" parent="." instance=ExtResource("4_ob6p5")]
+position = Vector2(64, 392)
+
+[node name="LevelExit" parent="." instance=ExtResource("5_fck3h")]
+position = Vector2(604, 161)
+next_level = ExtResource("6_fpio8")
